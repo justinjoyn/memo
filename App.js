@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import Router from './Router';
-import { Provider } from 'react-redux';
-import Store from './common/store';
-import { PersistGate } from 'redux-persist/integration/react';
-import ActivityLoader from './modules/common/ActivityLoader';
 import { Font } from 'expo';
+import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import Store from './common/store';
+import ActivityLoader from './modules/common/ActivityLoader';
+import Router from './Router';
 
 class App extends Component {
   state = {

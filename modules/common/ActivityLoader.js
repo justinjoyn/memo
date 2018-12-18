@@ -8,9 +8,7 @@ class ActivityLoader extends PureComponent {
         transparent={true}
         animationType={'none'}
         visible={this.props.loading}
-        onRequestClose={() => {
-          console.log('User requesting to close modal');
-        }}>
+        onRequestClose={() => null}>
         <View style={styles.modalBackground}>
           <View style={styles.activityIndicatorWrapper}>
             <ActivityIndicator animating={this.props.loading} />
@@ -33,7 +31,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     height: 100,
     width: 100,
-    borderRadius: 10,
+    borderRadius: 8,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-around'

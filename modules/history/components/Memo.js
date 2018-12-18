@@ -1,20 +1,42 @@
-import { Ionicons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import format from 'date-fns/format';
+import parse from 'date-fns/parse';
 import React, { PureComponent } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 class Memo extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {};
+  }
+
+  getDate() {
+    let millis = this.props.memo.updated ? this.props.memo.updated : this.props.memo.created;
+    return `Last edited at ${format(parse(millis), 'h:mm A D-M-YY')}`;
   }
 
   render() {
+    const { memo, onEditPressed, onOpenImagePressed } = this.props;
     return (
       <View style={styles.cardContainer}>
-        <Text style={styles.cardTitle} />
-        <Text style={styles.subTitle} />
         <View style={styles.card}>
-          <View style={styles.cardBody} />
+          <View style={styles.cardBody}>
+            <Text style={styles.cardTitle}>{memo.title}</Text>
+            <Text style={styles.with}>with {memo.with}</Text>
+            <Text style={styles.description}>{memo.description}</Text>
+            <View style={styles.footer}>
+              <TouchableOpacity style={styles.button} onPress={() => onEditPressed(memo)}>
+                <AntDesign name='edit' size={12} color='#FFF' />
+                <Text style={styles.buttonText}>Edit</Text>
+              </TouchableOpacity>
+              {memo.image ? (
+                <TouchableOpacity style={styles.button} onPress={() => onOpenImagePressed(memo)}>
+                  <AntDesign name='picture' size={12} color='#FFF' />
+                  <Text style={styles.buttonText}>Image</Text>
+                </TouchableOpacity>
+              ) : null}
+              <Text style={styles.date}>{this.getDate()}</Text>
+            </View>
+          </View>
         </View>
       </View>
     );
@@ -22,28 +44,58 @@ class Memo extends PureComponent {
 }
 
 const styles = StyleSheet.create({
-  cardContainer: {
-    paddingBottom: 10
-  },
+  cardContainer: {},
   card: {
     marginVertical: 5,
     marginHorizontal: 10,
-    height: 255
+    borderRadius: 8,
+    backgroundColor: '#EFEFEF'
   },
   cardBody: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#000'
+    padding: 10
   },
   cardTitle: {
-    paddingHorizontal: 10,
     fontFamily: 'product-sans-regular',
     fontSize: 16
   },
-  subTitle: {
-    paddingHorizontal: 10,
+  with: {
     fontFamily: 'product-sans-regular',
-    fontSize: 12
+    fontSize: 10
+  },
+  date: {
+    fontFamily: 'product-sans-regular',
+    fontSize: 10,
+    color: '#CCC',
+    textAlign: 'right',
+    flex: 1
+  },
+  description: {
+    fontFamily: 'product-sans-regular',
+    fontSize: 14,
+    marginVertical: 10
+  },
+  button: {
+    padding: 5,
+    borderRadius: 15,
+    backgroundColor: '#448AFF',
+    borderWidth: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 5
+  },
+  buttonText: {
+    fontFamily: 'product-sans-regular',
+    fontSize: 12,
+    marginHorizontal: 5,
+    color: '#FFF'
+  },
+  footer: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end'
   }
 });
 

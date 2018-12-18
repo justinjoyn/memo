@@ -3,6 +3,7 @@ import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import { persistReducer, persistStore } from 'redux-persist';
 import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
 import storage from 'redux-persist/lib/storage';
+import { create, createEpics } from '../modules/create';
 import { history, historyEpics } from '../modules/history';
 
 const rootPersistConfig = {
@@ -12,10 +13,11 @@ const rootPersistConfig = {
 };
 
 const rootReducer = combineReducers({
-  history
+  history,
+  create
 });
 
-const rootEpic = combineEpics(...historyEpics);
+const rootEpic = combineEpics(...historyEpics, ...createEpics);
 const epicMiddleware = createEpicMiddleware();
 const store = createStore(
   persistReducer(rootPersistConfig, rootReducer),
